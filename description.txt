@@ -1,0 +1,3 @@
+This mod provides the Automatron package for The Cheat Bunker.  As such, it requires both the Automatron DLC and The Cheat Bunker to be installed.  This package brings the armor and weapons from Automatron into The Cheat Bunker and comes with Quest Autocompletion options which immediately unlock all robot part mods and the eyebot pod and easily facilitates the alternative ending to the Mechanist's Lair dungeon when it becomes relevant.
+
+If your load order is almost full, this particular package does not provide a significant amount of content to The Cheat Bunker and could easily be passed over in favor of other mods.
