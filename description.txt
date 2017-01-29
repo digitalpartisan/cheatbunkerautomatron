@@ -1,3 +1,16 @@
-This mod provides the Automatron package for The Cheat Bunker.  As such, it requires both the Automatron DLC and The Cheat Bunker to be installed.  This package brings the armor and weapons from Automatron into The Cheat Bunker and comes with Quest Autocompletion options which immediately unlock all robot part mods and the eyebot pod and easily facilitates the alternative ending to the Mechanist's Lair dungeon when it becomes relevant.
+Augments The Cheat Bunker with content from the Automatron DLC.
 
-If your load order is almost full, this particular package does not provide a significant amount of content to The Cheat Bunker and could easily be passed over in favor of other mods.
+Quest Auto-completion options:
+Unlock all the robot workbench parts as well as the Eyebot pod and the oscillating spotlight
+Collect the holotapes for the alternative ending to the quest “Restoring Order” http://fallout.wikia.com/wiki/Restoring_Order
+Importers: None
+Exterior space connection(s): N/A
+
+Items modified for playability and/or adding a legendary effect attach point:
+Tesla Rifle
+Mr. Handy Buzz Blade
+Using a mod which edits these items will conflict with The Cheat Bunker: Automatron, but not in a way that prevents using both.
+
+-
+
+The Cheat Bunker: Automatron has been cleaned with FO4Edit.
