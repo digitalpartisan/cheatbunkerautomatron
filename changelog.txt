@@ -1,2 +1,5 @@
+1.0.1
+Matched the 1.0.2 bugfix in the main Cheat Bunker plugin which updated the package versioning system as well as the AiO uninstallation bug
+
 1.0.0
 Initial release
