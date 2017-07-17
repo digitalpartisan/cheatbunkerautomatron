@@ -1,4 +1,11 @@
 [
 	"Data\\SCRIPTS\\CheatBunkerDLC01\\Autocompletion\\RestoringOrder.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\Autocompletion\\RobotWorkshopItems.pex"
+	"Data\\SCRIPTS\\CheatBunkerDLC01\\Autocompletion\\RobotWorkshopItems.pex",
+	"Data\\SCRIPTS\\CheatBunkerDLC01\\BotParts\\MrHandy.pex",
+	"Data\\SCRIPTS\\CheatBunkerDLC01\\SpawnNPC\\Automatron.pex",
+	"Data\\SCRIPTS\\CheatBunkerDLC01\\SpawnNPC\\MrHandy.pex",
+	"Data\\SCRIPTS\\CheatBunkerDLC01\\BotParts.pex",
+	"Data\\SCRIPTS\\CheatBunkerDLC01\\GetRaceEffect.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\Logger.pex",
+	"Data\\SCRIPTS\\CheatBunkerDLC01\\SpawnNPC.pex"
 ]
