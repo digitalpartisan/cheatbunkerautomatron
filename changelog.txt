@@ -1,3 +1,6 @@
+v1.1.1
+Fixed a bug where the Automatron DLC package attempted to inject non-injectable data to the Cheat Bunker
+
 v1.1.0
 Added Automatron robot options to the Workshop Resource NPC Spawning menu
 
