@@ -1,5 +1,6 @@
 v1.2.0
 Introduced AWCKR dependency
+Upgraded the package versioning and upgrade logic corresponding to changes in The Cheat Bunker v1.7.0
 Corrected an error in version upgrade handling from previous versions
 
 v1.1.1
