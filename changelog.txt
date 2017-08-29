@@ -1,5 +1,6 @@
 v1.2.0
 Introduced AWCKR dependency
+Corrected an error in version upgrade handling from previous versions
 
 v1.1.1
 Fixed a bug where the Automatron DLC package attempted to inject non-injectable data to the Cheat Bunker
