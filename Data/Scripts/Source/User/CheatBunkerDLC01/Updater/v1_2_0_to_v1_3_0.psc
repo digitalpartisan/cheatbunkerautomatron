@@ -1,0 +1,9 @@
+Scriptname CheatBunkerDLC01:Updater:v1_2_0_to_v1_3_0 extends CheatBunker:PackageUpdater
+
+CheatBunkerDLC01:Autocompletion:RobotWorkshopItems Property CheatBunkerDLC01AutocompletionRobotWorkshop Auto Const Mandatory
+
+Function updateBehavior()
+	if (CheatBunkerDLC01AutocompletionRobotWorkshop.isFinished())
+		CheatBunkerDLC01AutocompletionRobotWorkshop.nukaWorldBehavior()
+	endif
+EndFunction

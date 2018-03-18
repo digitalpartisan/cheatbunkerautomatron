@@ -1,3 +1,6 @@
+v1.3.0
+The Robot Workbench autocompletion option now includes the Nuka-World robot mods provided Nuka-World is installed
+
 v1.2.0
 Introduced AWCKR dependency
 Upgraded the package versioning and upgrade logic corresponding to changes in The Cheat Bunker v1.7.0
