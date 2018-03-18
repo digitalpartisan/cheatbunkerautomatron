@@ -2,38 +2,16 @@ Scriptname CheatBunkerDLC01:Autocompletion:RobotWorkshopItems extends cheatbunke
 
 Quest Property DLC01MQ05 Auto Const
 
-Group RobotParts
-	GlobalVariable Property co_DLC01Bot_Arm_Assaultron_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Arm_Protectron_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Arm_RoboBrain_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Arm_Sentry_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Hand_LightningGun_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Head_Assaultron_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Head_Protectron_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Head_RoboBrain_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Head_Sentry_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Legs_Assaultron_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Legs_Protectron_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Legs_RoboBrain_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Legs_Sentry_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Assaultron_Armor_Construction_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Assaultron_Armor_Wasteland_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Assaultron_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_MrHandy_Armor_Construction_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_MrHandy_Armor_Wasteland_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Protectron_Armor_Construction_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Protectron_Armor_Wasteland_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Protectron_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Robobrain_Armor_Construction_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Robobrain_Armor_Wasteland_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_RoboBrain_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Sentry_Armor_Construction_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Sentry_Armor_Wasteland_Global Auto Const
-	GlobalVariable Property co_DLC01Bot_Torso_Sentry_Global Auto Const
+Group AutomatronSettings
+	GlobalVariable[] Property CraftableToggles Auto Const Mandatory
+	GlobalVariable Property DLC01WorkshopSchematicResourceScanner_Global Auto Const Mandatory
+	GlobalVariable Property DLC01WorkshopSchematicSpotlight_Global Auto Const Mandatory
 EndGroup
 
-GlobalVariable Property DLC01WorkshopSchematicResourceScanner_Global Auto Const
-GlobalVariable Property DLC01WorkshopSchematicSpotlight_Global Auto Const
+Group NukaWorldSettings
+	InjectTec:Plugin Property NukaWorldPlugin Auto Const Mandatory
+	Int Property NukaWorldPartQuestID Auto Const Mandatory
+EndGroup
 
 Bool Function isQuestReady()
 	return MyQuest.IsStageDOne(StageToWatch) ; overriding normal behavior because conditions on this autocompleter involve multiple quests
@@ -43,41 +21,41 @@ Bool Function hasWindowPassed()
 	return isRunning() || isFinished() || DLC01MQ05.isCompleted(); overriding this because the quest used to trigger availability isn't the quest used to determine a passed window
 EndFunction
 
-Function flipGlobal(GlobalVariable myVar)
+Function forceGlobal(GlobalVariable myVar)
 	myVar.setValue(1)
 EndFunction
 
-Function runBehavior()
-	flipGlobal(co_DLC01Bot_Arm_Assaultron_Global)
-	flipGlobal(co_DLC01Bot_Arm_Protectron_Global)
-	flipGlobal(co_DLC01Bot_Arm_RoboBrain_Global)
-	flipGlobal(co_DLC01Bot_Arm_Sentry_Global)
-	flipGlobal(co_DLC01Bot_Hand_LightningGun_Global)
-	flipGlobal(co_DLC01Bot_Head_Assaultron_Global)
-	flipGlobal(co_DLC01Bot_Head_Protectron_Global)
-	flipGlobal(co_DLC01Bot_Head_RoboBrain_Global)
-	flipGlobal(co_DLC01Bot_Head_Sentry_Global)
-	flipGlobal(co_DLC01Bot_Legs_Assaultron_Global)
-	flipGlobal(co_DLC01Bot_Legs_Protectron_Global)
-	flipGlobal(co_DLC01Bot_Legs_RoboBrain_Global)
-	flipGlobal(co_DLC01Bot_Legs_Sentry_Global)
-	flipGlobal(co_DLC01Bot_Torso_Assaultron_Armor_Construction_Global)
-	flipGlobal(co_DLC01Bot_Torso_Assaultron_Armor_Wasteland_Global)
-	flipGlobal(co_DLC01Bot_Torso_Assaultron_Global)
-	flipGlobal(co_DLC01Bot_Torso_MrHandy_Armor_Construction_Global)
-	flipGlobal(co_DLC01Bot_Torso_MrHandy_Armor_Wasteland_Global)
-	flipGlobal(co_DLC01Bot_Torso_Protectron_Armor_Construction_Global)
-	flipGlobal(co_DLC01Bot_Torso_Protectron_Armor_Wasteland_Global)
-	flipGlobal(co_DLC01Bot_Torso_Protectron_Global)
-	flipGlobal(co_DLC01Bot_Torso_Robobrain_Armor_Construction_Global)
-	flipGlobal(co_DLC01Bot_Torso_Robobrain_Armor_Wasteland_Global)
-	flipGlobal(co_DLC01Bot_Torso_RoboBrain_Global)
-	flipGlobal(co_DLC01Bot_Torso_Sentry_Armor_Construction_Global)
-	flipGlobal(co_DLC01Bot_Torso_Sentry_Armor_Wasteland_Global)
-	flipGlobal(co_DLC01Bot_Torso_Sentry_Global)
+Function automatronBehavior()
+	Int iCounter = 0
+	while (iCounter < CraftableToggles.Length)
+		forceGlobal(CraftableToggles[iCounter])
+		iCounter += 1
+	endWhile
 	
-	flipGlobal(DLC01WorkshopSchematicResourceScanner_Global)
-	flipGlobal(DLC01WorkshopSchematicSpotlight_Global)
+	forceGlobal(DLC01WorkshopSchematicResourceScanner_Global)
+	forceGlobal(DLC01WorkshopSchematicSpotlight_Global)
+EndFunction
+
+Function nukaWorldBehavior()
+	if (!NukaWorldPlugin.isInstalled())
+		return
+	endif
+	
+	DLC04:DLC04BotModQuestScript NukaWorldPartQuest = NukaWorldPlugin.lookupForm(NukaWorldPartQuestID) as DLC04:DLC04BotModQuestScript
+	if (!NukaWorldPartQuest)
+		return
+	endif
+	
+	Int iCounter = 0
+	while (iCounter < NukaWorldPartQuest.ItemData.Length)
+		forceGlobal(NukaWorldPartQuest.ItemData[iCounter].ModUnlockGlobal)
+		iCounter += 1
+	endWhile
+EndFunction
+
+Function runBehavior()
+	automatronBehavior()
+	nukaWorldBehavior()
 
 	finish()
 EndFunction
