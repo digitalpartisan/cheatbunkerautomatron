@@ -13,7 +13,9 @@ Bool Function playerHasTapes()
 EndFunction
 
 Function givePlayerTape(ObjectReference akTape)
-	Game.GetPlayer().AddItem(akTape)
+	if (!playerHasTape(akTape))
+		Game.GetPlayer().AddItem(akTape)
+	endif
 EndFunction
 
 Function givePlayerTapes()
@@ -22,11 +24,11 @@ Function givePlayerTapes()
 	givePlayerTape(ResearchTape)
 EndFunction
 
-Bool Function hasWindowPassed()
-	return parent.hasWindowPassed() || playerHasTapes()
+Bool Function canExecuteLogic()
+	return parent.canExecuteLogic() && !playerHasTapes()
 EndFunction
 
-Function runBehavior()
+Function executeBehavior()
 	givePlayerTapes()
-	finish()
+	conclude()
 EndFunction

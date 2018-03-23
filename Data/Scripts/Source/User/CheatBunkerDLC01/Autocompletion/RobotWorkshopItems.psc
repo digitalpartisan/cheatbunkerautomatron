@@ -13,8 +13,12 @@ Group NukaWorldSettings
 	Int Property NukaWorldPartQuestID Auto Const Mandatory
 EndGroup
 
-Bool Function isQuestReady()
-	return MyQuest.IsStageDOne(StageToWatch) ; overriding normal behavior because conditions on this autocompleter involve multiple quests
+Bool Function canExecuteLogic()
+	if (isRunning() || isCompleted())
+		return false ; don't allow such a thing to happen
+	endif
+	
+	return !(isAutomatronUnlocked() && isNukaWorldUnlocked()) ; unless both of these conditions are true, work can be done
 EndFunction
 
 Bool Function isAutomatronUnlocked()
@@ -42,27 +46,15 @@ Bool Function isNukaWorldUnlocked()
 	return true
 EndFunction
 
-Bool Function isEverythingUnlocked()
-	return isAutomatronUnlocked() && isNukaWorldUnlocked()
-EndFunction
-
-Bool Function hasWindowPassed()
-	return isRunning() || isFinished() || isEverythingUnlocked(); overriding this because the quest used to trigger availability isn't the quest used to determine a passed window
-EndFunction
-
-Function forceGlobal(GlobalVariable myVar)
-	myVar.setValue(1)
-EndFunction
-
 Function automatronBehavior()
 	Int iCounter = 0
 	while (iCounter < CraftableToggles.Length)
-		forceGlobal(CraftableToggles[iCounter])
+		CraftableToggles[iCounter].setValue(1)
 		iCounter += 1
 	endWhile
 	
-	forceGlobal(DLC01WorkshopSchematicResourceScanner_Global)
-	forceGlobal(DLC01WorkshopSchematicSpotlight_Global)
+	DLC01WorkshopSchematicResourceScanner_Global.setValue(1)
+	DLC01WorkshopSchematicSpotlight_Global.setValue(1)
 EndFunction
 
 Function nukaWorldBehavior()
@@ -75,16 +67,17 @@ Function nukaWorldBehavior()
 		return
 	endif
 	
+	; From here on, it's a sure thing that the Nuka-World DLC is installed and the appropriate quest has been loaded from it
 	Int iCounter = 0
 	while (iCounter < NukaWorldPartQuest.ItemData.Length)
-		forceGlobal(NukaWorldPartQuest.ItemData[iCounter].ModUnlockGlobal)
+		NukaWorldPartQuest.ItemData[iCounter].ModUnlockGlobal.setValue(1)
 		iCounter += 1
 	endWhile
 EndFunction
 
-Function runBehavior()
+Function executeBehavior()
 	automatronBehavior()
 	nukaWorldBehavior()
 
-	finish()
+	conclude()
 EndFunction
