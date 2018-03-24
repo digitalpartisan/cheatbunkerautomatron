@@ -1,8 +1,7 @@
-Scriptname CheatBunkerDLC01:Autocompletion:RobotWorkshopItems extends cheatbunker:autocompletion Conditional
-
-Quest Property DLC01MQ05 Auto Const
+Scriptname CheatBunkerDLC01:Autocompletion:RobotWorkshopItems extends CheatBunker:Autocompletion
 
 Group AutomatronSettings
+	GlobalVariable Property CheatBunkerDLC01AutocompletionRobotWorkshopWorkbenchEnabled Auto Const Mandatory
 	GlobalVariable[] Property CraftableToggles Auto Const Mandatory
 	GlobalVariable Property DLC01WorkshopSchematicResourceScanner_Global Auto Const Mandatory
 	GlobalVariable Property DLC01WorkshopSchematicSpotlight_Global Auto Const Mandatory
@@ -10,74 +9,88 @@ EndGroup
 
 Group NukaWorldSettings
 	InjectTec:Plugin Property NukaWorldPlugin Auto Const Mandatory
-	Int Property NukaWorldPartQuestID Auto Const Mandatory
+	Int[] Property NukaWorldVariableIDs Auto Const Mandatory
 EndGroup
 
 Bool Function canExecuteLogic()
-	if (isRunning() || isCompleted())
-		return false ; don't allow such a thing to happen
+	if (isExecuting() || isConcluded())
+		return false
 	endif
 	
-	return !(isAutomatronUnlocked() && isNukaWorldUnlocked()) ; unless both of these conditions are true, work can be done
+	return arePartsLocked() || areNukaWorldPartsLocked()
 EndFunction
 
-Bool Function isAutomatronUnlocked()
-	return DLC01MQ05.isCompleted()
-EndFunction
-
-Bool Function isNukaWorldUnlocked()
-	if (!NukaWorldPlugin.isInstalled())
-		return true ; in effect
-	endif
-	
-	DLC04:DLC04BotModQuestScript NukaWorldPartQuest = NukaWorldPlugin.lookupForm(NukaWorldPartQuestID) as DLC04:DLC04BotModQuestScript
-	if (!NukaWorldPartQuest)
-		return true ; again, in effect
-	endif
-	
+Bool Function arePartsLocked()
 	Int iCounter = 0
-	while (iCounter < NukaWorldPartQuest.ItemData.Length)
-		if (1 != NukaWorldPartQuest.ItemData[iCounter].ModUnlockGlobal.GetValueInt())
-			return false
+	while (iCounter < CraftableToggles.Length)
+		if (1 != CraftableToggles[iCounter].GetValueInt())
+			return true
 		endif
 		iCounter += 1
 	endWhile
 	
-	return true
+	if (1 != DLC01WorkshopSchematicResourceScanner_Global.GetValueInt())
+		return true
+	endif
+	
+	if (1 != DLC01WorkshopSchematicSpotlight_Global.GetValueInt())
+		return true
+	endif
+	
+	return false
 EndFunction
 
-Function automatronBehavior()
+Bool Function areNukaWorldPartsLocked()
+	if (NukaWorldPlugin.isInstalled())
+		Int iCounter = 0
+		GlobalVariable targetVariable = None
+		
+		while (iCounter < NukaWorldVariableIDs.Length)
+			targetVariable = NukaWorldPlugin.lookupForm(NukaWorldVariableIDs[iCounter]) as GlobalVariable
+			if (targetVariable && 1 != targetVariable.GetValueInt())
+				return true ; if there is at least one variable that doesn't have the right value, then parts are considered locked for our purposes
+			endif
+			
+			iCounter += 1
+		endWhile
+		
+		return false
+	endif
+	
+	return false ; in effect, since there could be no parts to restrict
+EndFunction
+
+Function unlockParts()
 	Int iCounter = 0
 	while (iCounter < CraftableToggles.Length)
-		CraftableToggles[iCounter].setValue(1)
+		CraftableToggles[iCounter].SetValue(1)
 		iCounter += 1
 	endWhile
 	
-	DLC01WorkshopSchematicResourceScanner_Global.setValue(1)
-	DLC01WorkshopSchematicSpotlight_Global.setValue(1)
+	CheatBunkerDLC01AutocompletionRobotWorkshopWorkbenchEnabled.SetValue(1)
+	DLC01WorkshopSchematicResourceScanner_Global.SetValue(1)
+	DLC01WorkshopSchematicSpotlight_Global.SetValue(1)
 EndFunction
 
-Function nukaWorldBehavior()
-	if (!NukaWorldPlugin.isInstalled())
-		return
+Function unlockNukaWorldParts()
+	if (NukaWorldPlugin.isInstalled())
+		Int iCounter = 0
+		GlobalVariable targetVariable = None
+		
+		while (iCounter < NukaWorldVariableIDs.Length)
+			targetVariable = NukaWorldPlugin.lookupForm(NukaWorldVariableIDs[iCounter]) as GlobalVariable
+			if (targetVariable)
+				targetVariable.SetValue(1)
+			endif
+			
+			iCounter += 1
+		endWhile
 	endif
-	
-	DLC04:DLC04BotModQuestScript NukaWorldPartQuest = NukaWorldPlugin.lookupForm(NukaWorldPartQuestID) as DLC04:DLC04BotModQuestScript
-	if (!NukaWorldPartQuest)
-		return
-	endif
-	
-	; From here on, it's a sure thing that the Nuka-World DLC is installed and the appropriate quest has been loaded from it
-	Int iCounter = 0
-	while (iCounter < NukaWorldPartQuest.ItemData.Length)
-		NukaWorldPartQuest.ItemData[iCounter].ModUnlockGlobal.setValue(1)
-		iCounter += 1
-	endWhile
 EndFunction
 
 Function executeBehavior()
-	automatronBehavior()
-	nukaWorldBehavior()
-
+	unlockParts()
+	unlockNukaWorldParts()
+	
 	conclude()
 EndFunction

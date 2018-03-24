@@ -1,50 +1,41 @@
-Scriptname CheatBunkerDLC01:Autocompletion:MechanicalMenace extends cheatbunker:autocompletion
+Scriptname CheatBunkerDLC01:Autocompletion:MechanicalMenace extends cheatbunker:autocompletion:StageResponder
 
-Int Property FindCaravan = 2200 Auto Const
-Int Property KillRobots = 2300 Auto Const
-Int Property Talk = 2400 Auto Const
+Group SpecificBehaviorStages
+	Int Property FindCaravanStage = 2200 Auto Const
+	Int Property KillRobotsStage = 2300 Auto Const
+	Int Property CompleteStage = 3000 Auto Const
+EndGroup
 
-Int Property CompletionStage = 3000 Auto Const
+Group SceneSettings
+	ObjectReference Property AdaActor Auto Const Mandatory
+	Quest Property DLC01MQ01Caravan Auto Const Mandatory
+	RefCollectionAlias Property HostileRobotsAlias Auto Const Mandatory
+	
+	Int Property PorterStage = 20 Auto Const
+	Int Property HurtzStage = 90 Auto Const
+EndGroup
 
-ObjectReference Property AdaActor Auto Const Mandatory
-RefCollectionAlias Property HostileRobotsAlias Auto Const Mandatory
+Group MovingAda
+	WorkshopParentScript Property WorkshopParent Auto Const Mandatory
+	Message Property CheatBunkerDLC01AutocompletionMQ01MechanicalMenaceDefaultDestination Auto Const Mandatory
+EndGroup
 
-Quest Property DLC01MQ01Caravan Auto Const Mandatory
-
-WorkshopParentScript Property WorkshopParent Auto Const Mandatory
-
-Message Property CheatBunkerDLC01AutocompletionMechanicalMenaceAdaToRedRocket Auto Const Mandatory
-
-Function findCaravan()
-	MyQuest.SetStage(KillRobots)
-EndFunction
-
-Function killRobots()
-	HostileRobotsAlias.KillAll(Game.GetPlayer())
-EndFunction
-
-Function talkToAda()
-	MyQuest.SetStage(CompletionStage)
-	if (None == WorkshopParent.AddPermanentActorToWorkshopPlayerChoice(AdaActor as Actor))
-		CheatBunkerDLC01AutocompletionMechanicalMenaceAdaToRedRocket.Show()
-	endif
-EndFunction
-
-Function executeBehavior()
-	Quest targetQuest = getQuest()
-
-	if (!targetQuest.IsObjectiveCompleted(FindCaravan))
-		findCaravan()
+Function processStage(Int aiStageID)
+	if (FindCaravanStage == aiStageID)
 		DLC01MQ01Caravan.Start()
-		Utility.Wait(1)
 	endif
 	
-	if (!targetQuest.IsObjectiveCompleted(KillRobots))
-		killRobots()
-		DLC01MQ01Caravan.SetStage(100)
+	if (KillRobotsStage == aiStageID)
+		DLC01MQ01Caravan.SetStage(PorterStage)
+		DLC01MQ01Caravan.SetStage(HurtzStage)
+		HostileRobotsAlias.KillAll(Game.GetPlayer())
+	endif
+	
+	if (CompleteStage == aiStageID)
+		if (None == WorkshopParent.AddPermanentActorToWorkshopPlayerChoice(AdaActor as Actor))
+			CheatBunkerDLC01AutocompletionMQ01MechanicalMenaceDefaultDestination.Show()
+		endif
 	endif
 
-	talkToAda()
-	
-	conclude()
+	parent.processStage(aiStageID) ; because basic processing needs to occur after the custom behaviors
 EndFunction

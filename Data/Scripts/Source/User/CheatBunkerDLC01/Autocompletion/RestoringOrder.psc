@@ -1,4 +1,4 @@
-Scriptname CheatBunkerDLC01:Autocompletion:RestoringOrder extends cheatbunker:autocompletion Conditional
+Scriptname CheatBunkerDLC01:Autocompletion:RestoringOrder extends cheatbunker:autocompletion
 
 ObjectReference Property FacilitiesTape Auto Const
 ObjectReference Property ProductionTape Auto Const
