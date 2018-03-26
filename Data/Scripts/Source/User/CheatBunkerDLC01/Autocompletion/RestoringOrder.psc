@@ -1,34 +1,51 @@
-Scriptname CheatBunkerDLC01:Autocompletion:RestoringOrder extends cheatbunker:autocompletion
+Scriptname CheatBunkerDLC01:Autocompletion:RestoringOrder extends CheatBunker:Autocompletion:StageResponder
 
-ObjectReference Property FacilitiesTape Auto Const
-ObjectReference Property ProductionTape Auto Const
-ObjectReference Property ResearchTape Auto Const
+Group FacilityHolotapes
+	ReferenceAlias Property HolotapeProduction Auto Const Mandatory
+	ReferenceAlias Property HolotapeFacilities Auto Const Mandatory
+	ReferenceAlias Property HolotapeResearch Auto Const Mandatory
+EndGroup
 
-Bool Function playerHasTape(ObjectReference akTape)
-	return akTape.getContainer() == Game.GetPlayer()
+Group QuestSpecificSettings
+	Actor Property AdaActor Auto Const Mandatory
+	ObjectMod Property DLC01Bot_Torso_Quest_MQ05MSAT Auto Const Mandatory
+	
+	Int Property ModAdaStage = 500 Auto Const
+	Int Property GiveTapesStage = 550 Auto Const
+	Int Property TakeControlStage = 900 Auto Const
+	
+	Quest Property DLC01Lair Auto Const Mandatory
+	Int Property LairPostquestStage = 2000 Auto Const
+EndGroup
+
+Bool Function playerHasTape(ReferenceAlias tapeAlias)
+	return tapeAlias.GetReference().getContainer() == Game.GetPlayer()
 EndFunction
 
-Bool Function playerHasTapes()
-	return playerHasTape(FacilitiesTape) && playerHasTape(ProductionTape) && playerHasTape(ResearchTape)
-EndFunction
-
-Function givePlayerTape(ObjectReference akTape)
-	if (!playerHasTape(akTape))
-		Game.GetPlayer().AddItem(akTape)
+Function giveTape(ReferenceAlias tapeAlias)
+	if (!playerHasTape(tapeAlias))
+		Game.GetPlayer().AddItem(tapeAlias.GetReference())
 	endif
 EndFunction
 
-Function givePlayerTapes()
-	givePlayerTape(FacilitiesTape)
-	givePlayerTape(ProductionTape)
-	givePlayerTape(ResearchTape)
+Function giveTapes()
+	giveTape(HolotapeProduction)
+	giveTape(HolotapeFacilities)
+	giveTape(HolotapeResearch)
 EndFunction
 
-Bool Function canExecuteLogic()
-	return parent.canExecuteLogic() && !playerHasTapes()
-EndFunction
+Function processStage(Int aiStageID)
+	if (ModAdaStage == aiStageID)
+		AdaActor.AttachMod(DLC01Bot_Torso_Quest_MQ05MSAT)
+	endif
 
-Function executeBehavior()
-	givePlayerTapes()
-	conclude()
+	if (GiveTapesStage == aiStageID)
+		giveTapes()
+	endif
+	
+	if (TakeControlStage == aiStageID)
+		DLC01Lair.SetStage(LairPostquestStage)
+	endif
+	
+	parent.processStage(aiStageID) ; because basic processing needs to occur after the custom behaviors
 EndFunction

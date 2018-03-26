@@ -1,5 +1,6 @@
 v1.3.0
 The Robot Workbench autocompletion option now includes the Nuka-World robot mods provided Nuka-World is installed
+The entire Automatron main quest line now has auto-completion options available
 
 v1.2.0
 Introduced AWCKR dependency

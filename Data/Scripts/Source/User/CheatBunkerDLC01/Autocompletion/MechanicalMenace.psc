@@ -20,6 +20,20 @@ Group MovingAda
 	Message Property CheatBunkerDLC01AutocompletionMQ01MechanicalMenaceDefaultDestination Auto Const Mandatory
 EndGroup
 
+Bool Function playerOwnsWorkshops()
+	Int iCounter = 0
+	
+	while (iCounter < WorkshopParent.Workshops.Length)
+		if (WorkshopParent.Workshops[iCounter] && WorkshopParent.Workshops[iCounter].OwnedByPlayer) ; make sure there are no None references from mods that were badly removed
+			return true
+		endif
+		
+		iCounter += 1
+	endWhile
+	
+	return false
+EndFunction
+
 Function processStage(Int aiStageID)
 	if (FindCaravanStage == aiStageID)
 		DLC01MQ01Caravan.Start()
@@ -32,7 +46,10 @@ Function processStage(Int aiStageID)
 	endif
 	
 	if (CompleteStage == aiStageID)
-		if (None == WorkshopParent.AddPermanentActorToWorkshopPlayerChoice(AdaActor as Actor))
+		Int iWorkshopsOwned = 0
+		Int iCounter = 0
+		
+		if (!playerOwnsWorkshops() || !WorkshopParent.AddPermanentActorToWorkshopPlayerChoice(AdaActor as Actor))
 			CheatBunkerDLC01AutocompletionMQ01MechanicalMenaceDefaultDestination.Show()
 		endif
 	endif
