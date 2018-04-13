@@ -13,11 +13,7 @@ Group NukaWorldSettings
 EndGroup
 
 Bool Function canExecuteLogic()
-	if (isExecuting() || isConcluded())
-		return false
-	endif
-	
-	return arePartsLocked() || areNukaWorldPartsLocked()
+	return parent.canExecuteLogic() && (arePartsLocked() || areNukaWorldPartsLocked())
 EndFunction
 
 Bool Function arePartsLocked()
