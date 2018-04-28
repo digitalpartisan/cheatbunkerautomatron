@@ -1,14 +1,14 @@
 [
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\Autocompletion\\ANewThreat.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\Autocompletion\\Headhunting.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\Autocompletion\\MechanicalMenace.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\Autocompletion\\RestoringOrder.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\Autocompletion\\RobotWorkshopItems.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\BotParts\\MrHandy.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\SpawnNPC\\Automatron.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\SpawnNPC\\MrHandy.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\Updater\\v1_2_0_to_v1_3_0.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\BotParts.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\Autocompletion\\ANewThreat.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\Autocompletion\\Headhunting.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\Autocompletion\\MechanicalMenace.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\Autocompletion\\RestoringOrder.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\Autocompletion\\RobotWorkshopItems.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\BotParts\\MrHandy.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\BotParts.pex",
 	"Data\\Scripts\\CheatBunkerDLC01\\Logger.pex",
-	"Data\\SCRIPTS\\CheatBunkerDLC01\\SpawnNPC.pex"
+	"Data\\Scripts\\CheatBunkerDLC01\\SpawnNPC\\Automatron.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\SpawnNPC\\MrHandy.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\SpawnNPC.pex",
+	"Data\\Scripts\\CheatBunkerDLC01\\Updater\\v1_2_0_to_v1_3_0.pex"
 ]

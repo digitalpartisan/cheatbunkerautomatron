@@ -1,4 +1,5 @@
 v1.3.0
+Integrated Chronicle v1.0.0 in accordance with The Cheat Bunker v1.8.0 upgrade
 The Robot Workbench autocompletion option now includes the Nuka-World robot mods provided Nuka-World is installed
 The entire Automatron main quest line now has auto-completion options available
 
