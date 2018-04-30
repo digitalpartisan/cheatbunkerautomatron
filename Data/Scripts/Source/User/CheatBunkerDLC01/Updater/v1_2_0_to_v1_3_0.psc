@@ -8,4 +8,6 @@ Function updateLogic()
 	if (CheatBunkerDLC01AutocompletionRobotWorkshop.isConcluded())
 		CheatBunkerDLC01AutocompletionRobotWorkshop.unlockNukaWorldParts()
 	endif
+	
+	sendSuccess()
 EndFunction
