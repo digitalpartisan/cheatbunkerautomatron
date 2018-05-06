@@ -25,6 +25,11 @@ EndFunction
 
 Function applyPartLists(Actor actorRef)
 	PartList[] aLists = getPartLists()
+	
+	if (!aLists)
+		return
+	endif
+	
 	Int iCounter = 0
 	while (iCounter < aLists.Length)
 		applyPartList(actorRef, aLists[iCounter])
