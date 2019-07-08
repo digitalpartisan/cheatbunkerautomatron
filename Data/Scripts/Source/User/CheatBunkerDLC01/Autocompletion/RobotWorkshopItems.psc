@@ -1,5 +1,7 @@
 Scriptname CheatBunkerDLC01:Autocompletion:RobotWorkshopItems extends CheatBunker:Autocompletion
 
+Import InjectTec:Utility:HexidecimalLogic
+
 Group AutomatronSettings
 	GlobalVariable Property CheatBunkerDLC01AutocompletionRobotWorkshopWorkbenchEnabled Auto Const Mandatory
 	GlobalVariable[] Property CraftableToggles Auto Const Mandatory
@@ -9,7 +11,7 @@ EndGroup
 
 Group NukaWorldSettings
 	InjectTec:Plugin Property NukaWorldPlugin Auto Const Mandatory
-	Int[] Property NukaWorldVariableIDs Auto Const Mandatory
+	DigitSet[] Property NukaWorldVariableDigits Auto Const
 EndGroup
 
 Bool Function canExecuteLogic()
@@ -36,24 +38,32 @@ Bool Function arePartsLocked()
 	return false
 EndFunction
 
-Bool Function areNukaWorldPartsLocked()
-	if (NukaWorldPlugin.isInstalled())
-		Int iCounter = 0
-		GlobalVariable targetVariable = None
-		
-		while (iCounter < NukaWorldVariableIDs.Length)
-			targetVariable = NukaWorldPlugin.lookupForm(NukaWorldVariableIDs[iCounter]) as GlobalVariable
-			if (targetVariable && 1 != targetVariable.GetValueInt())
-				return true ; if there is at least one variable that doesn't have the right value, then parts are considered locked for our purposes
-			endif
-			
-			iCounter += 1
-		endWhile
-		
-		return false
+GlobalVariable[] Function getNukaWorldPartLocks()
+	if (!NukaWorldPlugin.isInstalled())
+		return None
 	endif
 	
-	return false ; in effect, since there could be no parts to restrict
+	return NukaWorldPlugin.lookupArrayWithDigitSets(NukaWorldVariableDigits) as GlobalVariable[]
+EndFunction
+
+Bool Function areNukaWorldPartsLocked()
+	GlobalVariable[] NukaWorldPartLocks = getNukaWorldPartLocks()
+	if (!NukaWorldPartLocks)
+		return false ; since there are no parts to be locked
+	endif
+	
+	Int iCounter = 0
+	GlobalVariable currentLock = None
+	while (iCounter < NukaWorldPartLocks.Length)
+		currentLock = NukaWorldPartLocks[iCounter]
+		if (currentLock && 1 != currentLock.GetValueInt())
+			return true ; locked part found
+		endif
+		
+		iCounter += 1
+	endWhile
+	
+	return false ; no locked parts found
 EndFunction
 
 Function unlockParts()
@@ -69,19 +79,21 @@ Function unlockParts()
 EndFunction
 
 Function unlockNukaWorldParts()
-	if (NukaWorldPlugin.isInstalled())
-		Int iCounter = 0
-		GlobalVariable targetVariable = None
-		
-		while (iCounter < NukaWorldVariableIDs.Length)
-			targetVariable = NukaWorldPlugin.lookupForm(NukaWorldVariableIDs[iCounter]) as GlobalVariable
-			if (targetVariable)
-				targetVariable.SetValue(1)
-			endif
-			
-			iCounter += 1
-		endWhile
+	GlobalVariable[] NukaWorldPartLocks = getNukaWorldPartLocks()
+	if (!NukaWorldPartLocks)
+		return
 	endif
+
+	Int iCounter = 0
+	GlobalVariable currentLock = None
+	while (iCounter < NukaWorldPartLocks.Length)
+		currentLock = NukaWorldPartLocks[iCounter]
+		if (currentLock)
+			currentLock.SetValue(1)
+		endif
+		
+		iCounter += 1
+	endWhile
 EndFunction
 
 Function executeBehavior()
