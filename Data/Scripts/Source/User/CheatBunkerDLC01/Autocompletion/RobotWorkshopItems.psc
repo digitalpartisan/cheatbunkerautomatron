@@ -43,7 +43,7 @@ GlobalVariable[] Function getNukaWorldPartLocks()
 		return None
 	endif
 	
-	return NukaWorldPlugin.lookupArrayWithDigitSets(NukaWorldVariableDigits) as GlobalVariable[]
+	return NukaWorldPlugin.lookupArray(NukaWorldVariableDigits) as GlobalVariable[]
 EndFunction
 
 Bool Function areNukaWorldPartsLocked()
